@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  mongo:
+  postgresql:
     container_name: service_pg
     image: postgres:14-alpine
     restart: always
@@ -9,6 +9,16 @@ services:
       - 5432:5432
     volumes:
       - pg_store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  admin:
+    image: adminer
+    container_name: service_pg_admin
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
   pg_store:
