@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n\n請選擇："
+service = gets.chomp
+
+case service
+when "1" # MongoDB
+  exec("docker-compose -f mongodb.yml up --build ")
+when "2" # PG
+  exec("docker-compose -f pg.yml up --build ")
+when "3" # MySQL
+  exec("docker-compose -f mysql.yml up --build ")
+else
+  puts "無效的選項"
+end
