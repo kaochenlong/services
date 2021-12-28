@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: service_pg
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_store:/var/lib/postgresql/data
+
+volumes:
+  pg_store:
