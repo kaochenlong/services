@@ -13,10 +13,19 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     networks:
-     - campus_network
+      - campus_network
 
-volumes:
-  pg_store:
+  adminer:
+    image: adminer
+    container_name: service_pg_admin
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - campus_network
 
 networks:
   campus_network:
+
+volumes:
+  pg_store:

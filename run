@@ -1,14 +1,28 @@
 #!/usr/bin/env ruby
-print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n\n請選擇："
+print "Services:\n1. MongoDB\n2. PostgreSQL\n3. PostgreSQL with Adminer\n4. MySQL\n5. Redis\n\n請選擇："
 service = gets.chomp
+
+docker_compose_files = {
+  "1" => "mongodb.yml",
+  "2" => "pg.yml",
+  "3" => "pg_adminer.yml",
+  "4" => "mysql.yml",
+  "5" => "redis.yml"
+}
+
+selected_file = docker_compose_files[service]
 
 case service
 when "1" # MongoDB
-  exec("docker-compose -f mongodb.yml up --build ")
-when "2" # PG
-  exec("docker-compose -f pg.yml up --build ")
-when "3" # MySQL
-  exec("docker-compose -f mysql.yml up --build ")
+  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+when "2" # PostgreSQL
+  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+when "3" # PostgreSQL with Adminer
+  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+when "4" # MySQL
+  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+when "5" # Redis
+  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
 else
   puts "無效的選項"
 end
