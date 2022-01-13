@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-print "Services:\n1. MongoDB\n2. PostgreSQL\n3. PostgreSQL with Adminer\n4. MySQL\n5. Redis\n\n請選擇："
+print "Services:\n1. MongoDB\n2. PostgreSQL\n3. PostgreSQL with Adminer\n4. MySQL\n5. Redis\n6. ElasticSearch\n\n請選擇："
 service = gets.chomp
 
 docker_compose_files = {
@@ -7,7 +7,8 @@ docker_compose_files = {
   "2" => "pg.yml",
   "3" => "pg_adminer.yml",
   "4" => "mysql.yml",
-  "5" => "redis.yml"
+  "5" => "redis.yml",
+  "6" => "elasticsearch.yml"
 }
 
 selected_file = docker_compose_files[service]
@@ -22,6 +23,8 @@ when "3" # PostgreSQL with Adminer
 when "4" # MySQL
   exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
 when "5" # Redis
+  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+when "6" # Elasticsearch
   exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
 else
   puts "無效的選項"
