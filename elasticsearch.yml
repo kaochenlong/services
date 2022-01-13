@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  elastic:
+    container_name: service_elastic
+    image: elasticsearch:7.16.2
+    restart: always
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200
+    volumes:
+      - elastic_store:/usr/share/elasticsearch/data
+    networks:
+      - campus_network
+
+volumes:
+  elastic_store:
+
+networks:
+  campus_network:
