@@ -14,8 +14,8 @@ services:
       POSTGRES_PASSWORD: postgres
 
   adminer:
+    container_name: service_adminer
     image: adminer
-    container_name: service_pg_admin
     restart: always
     ports:
       - 8080:8080

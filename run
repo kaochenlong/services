@@ -8,29 +8,29 @@ when "1" # MongoDB
   service_type = gets.chomp
   case service_type
   when "2"
-    exec("docker-compose -f mongodb.yml run --rm mongo sh; docker-compose down --remove-orphans")
+    exec("docker-compose -f mongodb.yml run --rm mongo mongo mongodb://mongo")
   else
-    exec("docker-compose -f mongodb.yml up --build; docker-compose down --remove-orphans")
+    exec("docker-compose -f mongodb.yml up --build; docker-compose -f mongodb.yml down --remove-orphans")
   end
 
 when "2" # PostgreSQL
-  print "\n1. Database (Default)\n2. Database with Adminer\n\n請選擇："
+  print "\n1. Database (Default)\n2. Database with Adminer (Port: 8080)\n\n請選擇："
   service_type = gets.chomp
   case service_type
   when "2"
-    exec("docker-compose -f pg_adminer.yml up --build; docker-compose down --remove-orphans")
+    exec("docker-compose -f pg_adminer.yml up --build; docker-compose -f pg_adminer.yml down --remove-orphans")
   else
-    exec("docker-compose -f pg.yml up --build; docker-compose down --remove-orphans")
+    exec("docker-compose -f pg.yml up --build; docker-compose -f pg.yml down --remove-orphans")
   end
 
 when "3" # MySQL
-  exec("docker-compose -f mysql.yml up --build; docker-compose down --remove-orphans")
+  exec("docker-compose -f mysql.yml up --build; docker-compose -f mysql.yml up down --remove-orphans")
 
 when "4" # Redis
-  exec("docker-compose -f redis.yml up --build; docker-compose down --remove-orphans")
+  exec("docker-compose -f redis.yml up --build; docker-compose -f redis.yml down --remove-orphans")
 
 when "5" # Elasticsearch
-  exec("docker-compose -f elasticsearch.yml up --build; docker-compose down --remove-orphans")
+  exec("docker-compose -f elasticsearch.yml up --build; docker-compose -f elasticsearch.yml down --remove-orphans")
 
 else
   puts "無效的選項"
