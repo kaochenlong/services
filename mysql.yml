@@ -12,11 +12,6 @@ services:
       - mysql_store:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: helloworld
-    networks:
-      - campus_network
 
 volumes:
   mysql_store:
-
-networks:
-  campus_network:

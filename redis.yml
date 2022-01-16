@@ -9,11 +9,6 @@ services:
       - 6379:6379
     volumes:
       - redis_store:/data
-    networks:
-      - campus_network
 
 volumes:
   redis_store:
-
-networks:
-  campus_network:

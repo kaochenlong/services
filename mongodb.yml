@@ -9,11 +9,6 @@ services:
       - 27017:27017
     volumes:
       - mongodb_store:/data/db
-    networks:
-      - campus_network
 
 volumes:
   mongodb_store:
-
-networks:
-  campus_network:

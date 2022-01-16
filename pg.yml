@@ -12,11 +12,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    networks:
-     - campus_network
 
 volumes:
   pg_store:
-
-networks:
-  campus_network:

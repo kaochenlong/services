@@ -1,31 +1,37 @@
 #!/usr/bin/env ruby
-print "Services:\n1. MongoDB\n2. PostgreSQL\n3. PostgreSQL with Adminer\n4. MySQL\n5. Redis\n6. ElasticSearch\n\n請選擇："
+print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n\n請選擇："
 service = gets.chomp
-
-docker_compose_files = {
-  "1" => "mongodb.yml",
-  "2" => "pg.yml",
-  "3" => "pg_adminer.yml",
-  "4" => "mysql.yml",
-  "5" => "redis.yml",
-  "6" => "elasticsearch.yml"
-}
-
-selected_file = docker_compose_files[service]
 
 case service
 when "1" # MongoDB
-  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+  print "\n1. Database (Default)\n2. CLI\n\n請選擇："
+  service_type = gets.chomp
+  case service_type
+  when "2"
+    exec("docker-compose -f mongodb.yml run --rm mongo sh; docker-compose down --remove-orphans")
+  else
+    exec("docker-compose -f mongodb.yml up --build; docker-compose down --remove-orphans")
+  end
+
 when "2" # PostgreSQL
-  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
-when "3" # PostgreSQL with Adminer
-  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
-when "4" # MySQL
-  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
-when "5" # Redis
-  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
-when "6" # Elasticsearch
-  exec("docker-compose -f #{selected_file} up --build; docker-compose down --remove-orphans")
+  print "\n1. Database (Default)\n2. Database with Adminer\n\n請選擇："
+  service_type = gets.chomp
+  case service_type
+  when "2"
+    exec("docker-compose -f pg_adminer.yml up --build; docker-compose down --remove-orphans")
+  else
+    exec("docker-compose -f pg.yml up --build; docker-compose down --remove-orphans")
+  end
+
+when "3" # MySQL
+  exec("docker-compose -f mysql.yml up --build; docker-compose down --remove-orphans")
+
+when "4" # Redis
+  exec("docker-compose -f redis.yml up --build; docker-compose down --remove-orphans")
+
+when "5" # Elasticsearch
+  exec("docker-compose -f elasticsearch.yml up --build; docker-compose down --remove-orphans")
+
 else
   puts "無效的選項"
 end
