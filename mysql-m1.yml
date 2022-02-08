@@ -2,12 +2,13 @@ version: "3.8"
 
 services:
   mysql:
-    container_name: service_mysql
+    container_name: service_mysql_m1
     image: mysql:8
     restart: always
     command: --authentication_policy=mysql_native_password
     ports:
       - 3306:3306
+    platform: linux/amd64
     volumes:
       - mysql_store:/var/lib/mysql
     environment:

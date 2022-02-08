@@ -2,6 +2,11 @@
 print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n\n請選擇："
 service = gets.chomp
 
+def is_m1?
+  require "rbconfig"
+  RbConfig::CONFIG['host_cpu'] == 'arm64'
+end
+
 case service
 when "1" # MongoDB
   print "\n1. Database (Default)\n2. CLI\n\n請選擇："
@@ -24,7 +29,11 @@ when "2" # PostgreSQL
   end
 
 when "3" # MySQL
-  exec("docker-compose -f mysql.yml up --build; docker-compose -f mysql.yml up down --remove-orphans")
+  if is_m1?
+    exec("docker-compose -f mysql-m1.yml up --build; docker-compose -f mysql-m1.yml up down --remove-orphans")
+  else
+    exec("docker-compose -f mysql.yml up --build; docker-compose -f mysql.yml up down --remove-orphans")
+  end
 
 when "4" # Redis
   exec("docker-compose -f redis.yml up --build; docker-compose -f redis.yml down --remove-orphans")
@@ -35,3 +44,4 @@ when "5" # Elasticsearch
 else
   puts "無效的選項"
 end
+
