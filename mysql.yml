@@ -5,7 +5,7 @@ services:
     container_name: service_mysql
     image: mysql:8
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
+    command: --authentication_policy=mysql_native_password
     ports:
       - 3306:3306
     platform: linux/amd64
