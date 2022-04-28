@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  anycable:
+    container_name: service_anycable
+    image: anycable/anycable-go:latest
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+
+  redis:
+    container_name: service_redis
+    image: redis:7.0.0-alpine3.15
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_store:/data
+
+volumes:
+  redis_store:
