@@ -2,7 +2,10 @@
 
 - MongoDB
 - PostgreSQL
+  - username: `postgres`
+  - password: `postgres`
 - MySQL
+  - root password: `helloworld`
 - Redis
 - ElasticSearch
 - AnyCable
