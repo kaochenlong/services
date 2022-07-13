@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  portainer:
+    container_name: service_portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:

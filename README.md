@@ -8,6 +8,5 @@
   - root password: `helloworld`
 - Redis
 - ElasticSearch
-- AnyCable
 
 by eddie@5xcampus.com

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. AnyCable (with Redis)\n\n請選擇："
+print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Portainer\n\n請選擇："
 service = gets.chomp
 
 def is_m1?
@@ -41,8 +41,8 @@ when "4" # Redis
 when "5" # Elasticsearch
   exec("docker-compose -f elasticsearch.yml up --build; docker-compose -f elasticsearch.yml down --remove-orphans")
 
-when "6" # AnyCable with Redis
-  exec("docker-compose -f anycable.yml up --build; docker-compose -f anycable.yml down --remove-orphans")
+when "6" # Portainer
+  exec("docker-compose -f portainer.yml up --build; docker-compose -f portainer.yml down --remove-orphans")
 
 else
   puts "無效的選項"
