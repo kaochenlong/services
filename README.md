@@ -8,5 +8,6 @@
   - root password: `helloworld`
 - Redis
 - ElasticSearch
+- Portainer
 
 by eddie@5xcampus.com
