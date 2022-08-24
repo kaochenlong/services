@@ -4,14 +4,17 @@ services:
   mysql:
     container_name: service_mysql
     image: mysql:8
-    restart: always
+    restart: unless-stopped
     command: --authentication_policy=mysql_native_password
+    networks:
+      - service-external-network
     ports:
       - 3306:3306
     volumes:
-      - mysql_store:/var/lib/mysql
+      - ./volumes/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: helloworld
 
-volumes:
-  mysql_store:
+networks:
+  service-external-network:
+    external: true

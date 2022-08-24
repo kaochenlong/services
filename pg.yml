@@ -4,14 +4,17 @@ services:
   postgresql:
     container_name: service_pg
     image: postgres:14-alpine
-    restart: always
+    restart: unless-stopped
+    networks:
+      - service-external-network
     ports:
       - 5432:5432
     volumes:
-      - pg_store:/var/lib/postgresql/data
+      - ./volumes/postgresql:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
-volumes:
-  pg_store:
+networks:
+  service-external-network:
+    external: true

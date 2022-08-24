@@ -1,50 +1,82 @@
-#!/usr/bin/env ruby
-print "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Portainer\n\n請選擇："
-service = gets.chomp
+#!/bin/bash
 
-def is_m1?
-  require "rbconfig"
-  RbConfig::CONFIG['host_cpu'] == 'arm64'
-end
+# environments
+export COMPOSE_IGNORE_ORPHANS=True
 
-case service
-when "1" # MongoDB
-  print "\n1. Database (Default)\n2. CLI\n\n請選擇："
-  service_type = gets.chomp
-  case service_type
-  when "2"
-    exec("docker-compose -f mongodb.yml run --rm mongo mongo mongodb://mongo")
+# utilities
+function is_m1() {
+  if [[ $(uname -m) == 'arm64' ]]; then
+    return 1
   else
-    exec("docker-compose -f mongodb.yml up --build; docker-compose -f mongodb.yml down --remove-orphans")
-  end
+    return 0
+  fi
+}
 
-when "2" # PostgreSQL
-  print "\n1. Database (Default)\n2. Database with Adminer (Port: 8080)\n\n請選擇："
-  service_type = gets.chomp
-  case service_type
-  when "2"
-    exec("docker-compose -f pg_adminer.yml up --build; docker-compose -f pg_adminer.yml down --remove-orphans")
-  else
-    exec("docker-compose -f pg.yml up --build; docker-compose -f pg.yml down --remove-orphans")
-  end
+# create volume folder if not exists
+[ -d volumes ] || mkdir -p volumes/{elasticsearch,mongodb,mysql,postgresql,redis,portainer}
 
-when "3" # MySQL
-  if is_m1?
-    exec("docker-compose -f mysql-m1.yml up --build; docker-compose -f mysql-m1.yml up down --remove-orphans")
-  else
-    exec("docker-compose -f mysql.yml up --build; docker-compose -f mysql.yml up down --remove-orphans")
-  end
+# check if external network exists?
+if [[ "$(docker network ls | grep "service-external-network")" == "" ]] ; then
+  docker network create "service-external-network" > /dev/null 2>&1
+  printf "External service network created.\n\n"
+fi
 
-when "4" # Redis
-  exec("docker-compose -f redis.yml up --build; docker-compose -f redis.yml down --remove-orphans")
+printf "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Portainer\n\n請選擇："
 
-when "5" # Elasticsearch
-  exec("docker-compose -f elasticsearch.yml up --build; docker-compose -f elasticsearch.yml down --remove-orphans")
+read service_name
 
-when "6" # Portainer
-  exec("docker-compose -f portainer.yml up --build; docker-compose -f portainer.yml down --remove-orphans")
+case $service_name in
 
-else
-  puts "無效的選項"
-end
+   1)
+     # MongoDB
+     docker-compose -f mongodb.yml up --build
+   ;;
 
+   2)
+     # PostgreSQL
+     printf "\n1. Database (Default)\n2. Database with Adminer (Port: 8080)\n\n請選擇："
+     read service_type
+
+     case $service_type in
+       2)
+         docker-compose -f pg_adminer.yml up --build
+       ;;
+
+       *)
+         docker-compose -f pg.yml up --build
+       ;;
+     esac
+   ;;
+
+   3)
+     # MySQL
+     is_m1
+     if [ $? == 1 ]
+     then
+       docker-compose -f mysql-m1.yml up --build
+     else
+       docker-compose -f mysql.yml up --build
+     fi
+   ;;
+
+   4)
+     # Redis
+     docker-compose -f redis.yml up --build
+   ;;
+
+   5)
+     # Elasticsearch
+     docker-compose -f elasticsearch.yml up --build
+   ;;
+
+   6)
+     # Portainer
+     docker-compose -f portainer.yml up --build
+   ;;
+
+   *)
+     printf "無效的選項\n"
+   ;;
+esac
+
+exit 0

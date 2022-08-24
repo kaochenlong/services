@@ -4,11 +4,14 @@ services:
   mongo:
     container_name: service_mongodb
     image: mongo:latest
-    restart: always
+    restart: unless-stopped
+    networks:
+      - service-external-network
     ports:
       - 27017:27017
     volumes:
-      - mongodb_store:/data/db
+      - ./volumes/mongodb:/data/db
 
-volumes:
-  mongodb_store:
+networks:
+  service-external-network:
+    external: true

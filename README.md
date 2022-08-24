@@ -1,13 +1,13 @@
 # Dockerized Services
 
-- MongoDB
-- PostgreSQL
+- 1. MongoDB
+- 2. PostgreSQL
   - username: `postgres`
   - password: `postgres`
-- MySQL
+- 3. MySQL
   - root password: `helloworld`
-- Redis
-- ElasticSearch
-- Portainer
+- 4. Redis
+- 5. ElasticSearch
+- 6. Portainer
 
 by eddie@5xcampus.com
