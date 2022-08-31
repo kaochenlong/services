@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if docker engine is running
+if ! docker info > /dev/null 2>&1; then
+  echo "Please install Docker first and make sure docker engine is running."
+  exit 1
+fi
+
 # environments
 export COMPOSE_IGNORE_ORPHANS=True
 
