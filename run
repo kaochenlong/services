@@ -19,15 +19,15 @@ function is_m1() {
 }
 
 # create volume folder if not exists
-[ -d volumes ] || mkdir -p volumes/{elasticsearch,mongodb,mysql,postgresql,redis,portainer}
+[ -d volumes ] || mkdir -p volumes/{elasticsearch,mongodb,mysql,postgresql,redis}
 
 # check if external network exists?
-if [[ "$(docker network ls | grep "service-external-network")" == "" ]] ; then
-  docker network create "service-external-network" > /dev/null 2>&1
-  printf "External service network created.\n\n"
+if [[ "$(docker network ls | grep "external-service-network")" == "" ]] ; then
+  docker network create external-service-network > /dev/null 2>&1
+  printf "External network: 'external-service-network' created.\n\n"
 fi
 
-printf "Services:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Portainer\n\n請選擇："
+printf "\nServices:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Adminer\n\n請選擇："
 
 read service_name
 
@@ -40,18 +40,7 @@ case $service_name in
 
    2)
      # PostgreSQL
-     printf "\n1. Database (Default)\n2. Database with Adminer (Port: 8080)\n\n請選擇："
-     read service_type
-
-     case $service_type in
-       2)
-         docker-compose -f pg_adminer.yml up --build
-       ;;
-
-       *)
-         docker-compose -f pg.yml up --build
-       ;;
-     esac
+     docker-compose -f postgresql.yml up --build
    ;;
 
    3)
@@ -76,8 +65,8 @@ case $service_name in
    ;;
 
    6)
-     # Portainer
-     docker-compose -f portainer.yml up --build
+     # Adminer
+     docker-compose -f adminer.yml up --build
    ;;
 
    *)

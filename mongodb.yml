@@ -1,17 +1,27 @@
 version: "3.9"
 
 services:
-  mongo:
-    container_name: service_mongodb
+  mongodb:
+    container_name: mongodb
+
     image: mongo:latest
+
     restart: unless-stopped
+
     networks:
-      - service-external-network
+      - ${EXTERNAL_NETWORK}
+
     ports:
-      - 27017:27017
+      - "${MONGODB_PORT}:${MONGODB_PORT}"
+
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}"
+      - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}"
+
     volumes:
-      - ./volumes/mongodb:/data/db
+      - "./volumes/mongodb:/data/db"
 
 networks:
-  service-external-network:
+  external-service-network:
     external: true
+

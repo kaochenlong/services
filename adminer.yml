@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  adminer:
+    container_name: adminer
+
+    image: adminer
+
+    restart: unless-stopped
+
+    networks:
+      - ${EXTERNAL_NETWORK}
+
+    environment:
+      - "ADMINER_DESIGN=ng9"
+
+    ports:
+      - "${ADMINER_PORT}:${ADMINER_PORT}"
+
+networks:
+  external-service-network:
+    external: true

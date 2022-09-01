@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgresql:
+    container_name: postgres
+
+    image: postgres:14-alpine
+
+    restart: unless-stopped
+
+    networks:
+      - ${EXTERNAL_NETWORK}
+
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - "./volumes/postgresql:/var/lib/postgresql/data"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+networks:
+  external-service-network:
+    external: true

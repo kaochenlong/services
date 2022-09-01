@@ -2,16 +2,27 @@ version: "3.9"
 
 services:
   redis:
-    container_name: service_redis
+    container_name: redis
+
     image: redis:7.0.0-alpine3.15
+
     restart: unless-stopped
+
     networks:
-      - service-external-network
+      - ${EXTERNAL_NETWORK}
+
     ports:
-      - 6379:6379
+      - "${REDIS_PORT}:${REDIS_PORT}"
+
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
     volumes:
-      - ./volumes/redis:/data
+      - "./volumes/redis:/data"
 
 networks:
-  service-external-network:
+  external-service-network:
     external: true

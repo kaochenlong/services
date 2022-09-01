@@ -1,19 +1,31 @@
 version: "3.9"
 
 services:
-  elastic:
-    container_name: service_elastic
-    image: elasticsearch:7.17.3
+  elasticsearch:
+    container_name: elasticsearch
+
+    image: elasticsearch:7.17.6
+
     restart: unless-stopped
+
     networks:
-      - service-external-network
+      - ${EXTERNAL_NETWORK}
+
     environment:
       - "discovery.type=single-node"
+
     ports:
-      - 9200:9200
+      - "${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}"
+
     volumes:
-      - ./volumes/elasticsearch:/usr/share/elasticsearch/data
+      - "./volumes/elasticsearch:/usr/share/elasticsearch/data"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail elasticsearch:${ELASTICSEARCH_PORT}/_cluster/health || exit 1"]
+      interval: 20s
+      timeout: 30s
+      retries: 3
 
 networks:
-  service-external-network:
+  external-service-network:
     external: true
