@@ -1,12 +1,13 @@
 services:
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:alpine
+    image: rabbitmq:management-alpine
     restart: unless-stopped
     networks:
       - ${EXTERNAL_NETWORK}
     ports:
       - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+      - 15672:15672
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
