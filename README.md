@@ -24,6 +24,11 @@
   - port: 9200
 - Adminer
   - port: 8080
+- RabbitMQ
+  - hostname: `rabbitmq`
+  - username: `rabbit`
+  - password: `rabbit`
+  - port: 5672
 
 You can modify all those username, password and port by editing the `.env` file.
 

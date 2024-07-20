@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   adminer:
     container_name: adminer
@@ -12,7 +10,7 @@ services:
       - ${EXTERNAL_NETWORK}
 
     environment:
-      - "ADMINER_DESIGN=ng9"
+      ADMINER_DESIGN: ng9
 
     ports:
       - "${ADMINER_PORT}:${ADMINER_PORT}"

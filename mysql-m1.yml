@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   mysql:
     container_name: mysql_m1
@@ -17,12 +15,12 @@ services:
       - "${MYSQL_PORT}:${MYSQL_PORT}"
 
     environment:
-      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     platform: linux/amd64
 
     volumes:
-      - "./volumes/mysql:/var/lib/mysql"
+      - ./volumes/mysql:/var/lib/mysql
 
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]

@@ -27,7 +27,7 @@ if [[ "$(docker network ls | grep "external-service-network")" == "" ]] ; then
   printf "External network: 'external-service-network' created.\n\n"
 fi
 
-printf "\nServices:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Adminer\n\n請選擇："
+printf "\nServices:\n1. MongoDB\n2. PostgreSQL\n3. MySQL\n4. Redis\n5. ElasticSearch\n6. Adminer\n7. RabbitMQ\n\n請選擇："
 
 read service_name
 
@@ -67,6 +67,11 @@ case $service_name in
    6)
      # Adminer
      docker-compose -f adminer.yml up --build
+   ;;
+
+   7)
+     # Adminer
+     docker-compose -f rabbitmq.yml up --build
    ;;
 
    *)
