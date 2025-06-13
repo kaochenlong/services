@@ -29,6 +29,10 @@
   - username: `rabbit`
   - password: `rabbit`
   - port: 5672
+- OpenLDAP
+  - admin_user: `admin`
+  - admin_password: `admin`
+  - port: 389
 
 You can modify all those username, password and port by editing the `.env` file.
 
